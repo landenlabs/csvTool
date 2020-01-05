@@ -167,6 +167,106 @@ Performance is similar for both cpu and memory, so call it a tie.
 ```
 [To Top](#csv)  
 
+### Test / Validate
+
+I used AriaFallah test suite and validate the parser.
+Compile the tester.cpp program and run it above the data directory.
+
+```
+clang++ -std=c++11 tester.cpp -o tester
+
+csvTool/tester
+===============================================================================
+All tests passed (14 assertions in 14 test cases)
+```
+
+[To Top](#csv) 
+
+### Code details
+
+The main.cpp source file and csvtool.h  have a collection of pre-compiler switches to adjust the csv tool behavior.
+
+Example compiler commands:
+```
+clang++ -std=c++11 -O2 -DUSE_IBUFFER  main.cpp -o bin/csvTool
+clang++ -std=c++11 -O2 -DKEEP_ROWS -DDUMP_TABLE  main.cpp -o bin/csvTool 
+```
+
+
+Code comment block listing all the pre-compiler switches:
+```
+// Build options:
+//  #define USE_IBUFFER
+//  #define KEEP_ROWS
+//  #define USE_KEEP_QUTOES
+//  #define DUMP_TABLE
+//  #define USE_BIG_STACK_BUFFER
+//  #define USE_BIG_HEAP_BUFFER
+//  #define USE_CR_EOL
+```
+
+If you have very laerge files, or poor file system performnace and have adequte memory you can adjust the input buffer.
+You can provide a private buffer either on the Stack or Heap.
+```
+    // Optional input buffering hacks
+#ifdef USE_BIG_STACK_BUFFER
+    static constexpr int BUFFER_SIZE = 1024 * 128;
+    char bigBuffer[BUFFER_SIZE];
+    inFS.rdbuf()->pubsetbuf(bigBuffer, BUFFER_SIZE);
+#endif
+#ifdef USE_BIG_HEAP_BUFFER
+    static constexpr int BUFFER_SIZE = 1024 * 128;
+    vector<char> bigBuffer(BUFFER_SIZE);
+    inFS.rdbuf()->pubsetbuf(&bigBuffer[0], BUFFER_SIZE);
+#endif
+```
+
+I also provide a custom input stream which includes buffering. 
+```cpp
+#ifdef USE_IBUFFER
+// ===============================================================================================
+// Custom buffered input stream.
+class IBuffer {
+  
+    std::ifstream in;
+    static constexpr int BUFFER_SIZE = 1024 * 128;
+    char mBuffer[BUFFER_SIZE]{};
+    size_t inPos = BUFFER_SIZE;
+    size_t inLen = BUFFER_SIZE;
+    bool mEof = false;
+    
+public:
+    IBuffer(const char* file, int flags) {
+        in.open(file, flags);
+    }
+    void close() {
+        in.close();
+    }
+    bool eof() {
+        return mEof;
+    }
+    bool get(char& ch) {
+        if (inPos < inLen) {
+            ch = mBuffer[inPos++];
+            return true;
+        }
+        if (!in.eof()) {
+            inPos = 0;
+            inLen = in.read(mBuffer, BUFFER_SIZE).gcount();
+            return get(ch);
+        }
+        mEof = true;
+        return !mEof;
+    }
+};
+typedef IBuffer CsvStream;
+#else
+typedef std::ifstream CsvStream;
+#endif
+```
+[To Top](#csv) 
+
+
 # Web Page  
   
 [Home web page](http://landenlabs.com/android/index.html) for more information.  

@@ -25,6 +25,7 @@
 /* Begin PBXFileReference section */
 		B976566A23BFDDA800BECE96 /* csvTool */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = csvTool; sourceTree = BUILT_PRODUCTS_DIR; };
 		B976566D23BFDDA800BECE96 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		B976567523C140A000BECE96 /* csvtool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = csvtool.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +59,7 @@
 			isa = PBXGroup;
 			children = (
 				B976566D23BFDDA800BECE96 /* main.cpp */,
+				B976567523C140A000BECE96 /* csvtool.h */,
 			);
 			path = csvTool;
 			sourceTree = "<group>";

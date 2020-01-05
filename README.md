@@ -66,6 +66,35 @@ int main(int argc, const char *argv[])
 }
 ```
 
+Altnerate version to read header and then rows.
+```cpp
+int readCsvHeaderThenRows(int argc, const char *argv[])
+{
+    std::string field;    // Reuse for better memory performance.
+    typedef std::vector<CsvRow> CsvTable;
+    CsvTable csvTable;
+    CsvRow csvHeader;
+    CsvRow csvRow;
+    CsvParser csvParser;
+
+    CsvStream inFS(argv[1], std::ifstream::binary);
+    if (csvParser.getRow(inFS, field, csvHeader))  {
+        while (csvParser.getRow(inFS, field, csvRow))  {
+            CsvRow nextRow;
+            nextRow.reserve(csvRow.capacity());
+            nextRow.swap(csvRow);
+            csvTable.push_back(std::move(nextRow));
+            csvRow.clear();
+        }
+    }
+
+    inFS.close();
+    return 0;
+}
+
+```
+
+
 The CSV parser  adjustments:
 ```cppp
     char delim = ',';             // field delimeters

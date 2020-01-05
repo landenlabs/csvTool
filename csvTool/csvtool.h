@@ -25,28 +25,31 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <sys/stat.h>
  
 // using namespace std;
 
 namespace CsvTool {
 
-// Build options:
-//  #define USE_IBUFFER
-//  #define KEEP_ROWS
-//  #define USE_KEEP_QUTOES
-//  #define DUMP_TABLE
-//  #define USE_BIG_STACK_BUFFER
-//  #define USE_BIG_HEAP_BUFFER
-//  #define USE_CR_EOL
+// Build options (csvtool.h):
+//  #define USE_IBUFFER             // Custon input buffer
+//  #define BUFFER_ENTIRE_FILE      // Use with USE_IBUFFER to buffer entire input csv file
+
 
 #ifdef USE_IBUFFER
 // ===============================================================================================
 // Custom buffered input stream.
 class IBuffer {
   
-    ifstream in;
-    static constexpr int BUFFER_SIZE = 1024 * 128;
+    std::ifstream in;
+#ifdef BUFFER_ENTIRE_FILE
+    size_t BUFFER_SIZE = 0;
+    std::unique_ptr<char[]> mAllocBuffer;
+    char* mBuffer = nullptr;
+#else
+    static constexpr size_t BUFFER_SIZE = 1024 * 128;
     char mBuffer[BUFFER_SIZE]{};
+#endif
     size_t inPos = BUFFER_SIZE;
     size_t inLen = BUFFER_SIZE;
     bool mEof = false;
@@ -54,6 +57,15 @@ class IBuffer {
 public:
     IBuffer(const char* file, int flags) {
         in.open(file, flags);
+#ifdef BUFFER_ENTIRE_FILE
+        struct stat stat_buf;
+        int rc = stat(file, &stat_buf);
+        if  (rc == 0 &&  stat_buf.st_size > 0) {
+            BUFFER_SIZE = stat_buf.st_size;
+            mAllocBuffer = std::make_unique<char[]>(stat_buf.st_size);
+            mBuffer = mAllocBuffer.get();
+        }
+#endif
     }
     void close() {
         in.close();

@@ -22,6 +22,8 @@ Related implementations:
 * [stackoverflow discussion on CSV parser](https://stackoverflow.com/questions/1120140/how-can-i-read-and-parse-csv-files-in-c)
 * [AriaFallah/csv-parser](https://github.com/AriaFallah/csv-parser)
 * [ben-strasser/fast-cpp-csv-parser](https://github.com/ben-strasser/fast-cpp-csv-parser)
+* [Chris Welshman/cwcsv](https://github.com/cwzx/cwcsv)
+* [What is the Fastest CSV Parser](http://datahunters.us/fastest-csv-parser)
   
 ---  
 <a name="csv"></a>  
@@ -126,6 +128,7 @@ Example adjusting the parser:
 |--|--|
 | [Dennis csvTool](https://github.com/landenlabs/csvTool) | 58 |
 |[AriaFallah csvParser](https://github.com/AriaFallah/csv-parser)|331|
+|[Chris Welshman/cwcsv](https://github.com/cwzx/cwcsv) | ~340 (6 files)|
 
 [To Top](#csv)  
 

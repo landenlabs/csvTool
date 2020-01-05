@@ -226,15 +226,22 @@ clang++ -std=c++11 -O2 -DKEEP_ROWS -DDUMP_TABLE  main.cpp -o bin/csvTool
 
 
 Code comment block listing all the pre-compiler switches:
-```
-// Build options:
-//  #define USE_IBUFFER
-//  #define KEEP_ROWS
-//  #define USE_KEEP_QUTOES
-//  #define DUMP_TABLE
-//  #define USE_BIG_STACK_BUFFER
-//  #define USE_BIG_HEAP_BUFFER
-//  #define USE_CR_EOL
+```cpp
+// Build options (defines set in code or compile command):
+//
+//  #define KEEP_ROWS               // Keep parsed rows, default just counts rows
+//  #define USE_KEEP_QUTOES         // Keep original quotes, default removes quotes
+//  #define DUMP_TABLE              // Dump CSV table to terminal, default count rows.
+//  #define USE_CR_EOL              // Force CR line terminator, defaults to LF and CRLF
+//
+// Default no special input buffer, use either USE_IBUFFER or one of these but not both:
+//  #define USE_BIG_STACK_BUFFER    // 128K stack input buffer
+//  #define USE_BIG_HEAP_BUFFER     // 128k heap input buffer
+//
+// Build options (csvtool.h):
+//  #define USE_IBUFFER             // Custon input buffer
+//  #define BUFFER_ENTIRE_FILE      // Use with USE_IBUFFER to buffer entire input csv file
+
 ```
 
 If you have very laerge files, or poor file system performnace and have adequte memory you can adjust the input buffer.

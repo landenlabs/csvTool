@@ -104,6 +104,7 @@ class CsvParser
   public:
     char delim = ',';
     const char* quotes = "'\"";
+    const char space = ' ';
     char inEOL = '\n';
     bool keepQuotes = false;
     char ignoreEOL = '\r';
@@ -117,7 +118,7 @@ class CsvParser
             field.clear();
             
             // Remove unwanted leading characters.
-            while (istream.get(ch) && (isspace(ch) || ch == ignoreEOL));
+            while (istream.get(ch) && (ch == space || ch == ignoreEOL));
             if (ch == inEOL || ch == '\0')
                 return !istream.eof();
             

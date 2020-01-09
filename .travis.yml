@@ -2,8 +2,8 @@ language: cpp
 compiler: gcc
 dist: trusty
 
-before_script: 
-  - cd csvTool
+# before_script: 
+#  - cd csvTool
 
 before_install:
   - cd csvTool

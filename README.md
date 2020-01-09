@@ -1,7 +1,7 @@
 
 # LanDen Labs - CsvTool (csv parser)
 CsvTool [Home website](http://landenlabs.com)  
-4-Jan-2020  
+8-Jan-2020  
   
 ### Compact Fast CSV Parser   
 Simple compact fast CSV parser in single class header file.
@@ -24,12 +24,15 @@ Related implementations:
 * [ben-strasser/fast-cpp-csv-parser](https://github.com/ben-strasser/fast-cpp-csv-parser)
 * [Chris Welshman/cwcsv](https://github.com/cwzx/cwcsv)
 * [What is the Fastest CSV Parser](http://datahunters.us/fastest-csv-parser)
+* [CSV command line tool](https://github.com/BurntSushi/xsv)
   
 ---  
 <a name="csv"></a>  
 ### CSV Parser 
   
   Example usage to read, parse and store CSV table.
+  
+  [![Build status](https://travis-ci.org/landenlabs/csvTool.svg?branch=master)](https://travis-ci.org/landenlabs/csvTool)
   
 ```cpp
 #include "csvtool.h"
@@ -126,7 +129,8 @@ Example adjusting the parser:
  
 |Author| Lines of code |
 |--|--|
-| [Dennis csvTool](https://github.com/landenlabs/csvTool) | 58 |
+| [Dennis csvTool](https://github.com/landenlabs/csvTool) | 60  |
+| [Dennis csvTool](https://github.com/landenlabs/csvTool) | 100 with custom IBuffer  |
 |[AriaFallah csvParser](https://github.com/AriaFallah/csv-parser)|331|
 |[Chris Welshman/cwcsv](https://github.com/cwzx/cwcsv) | ~340 (6 files)|
 

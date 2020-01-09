@@ -2,7 +2,11 @@ language: cpp
 compiler: gcc
 dist: trusty
 
+before_script: 
+  - cd csvTool
+
 before_install:
+  - cd csvTtool
   - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
   - sudo apt-get update -qq
 
@@ -11,4 +15,6 @@ install:
   - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6 90
 
 script: 
-  - g++ main.cpp -std=c++17 -o csvtool
+  - g++ main.cpp -o csvtool1
+  - g++ main.cpp -std=c++14 -o csvtool2
+  - g++ main.cpp -std=c++17 -o csvtool3

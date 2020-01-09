@@ -21,20 +21,21 @@
 
 #pragma once
 
+#define CSVTOOL_VERSION "v20.01.06"
+
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <vector>
 #include <sys/stat.h>
- 
-// using namespace std;
+#include<cstring>           // For strchr()
 
 namespace CsvTool {
 
 // Build options (csvtool.h):
 //  #define USE_IBUFFER             // Custon input buffer
 //  #define BUFFER_ENTIRE_FILE      // Use with USE_IBUFFER to buffer entire input csv file
-
+#define SUPPORT_QUOTED_VALUES
 
 #ifdef USE_IBUFFER
 // ===============================================================================================
@@ -121,7 +122,8 @@ class CsvParser
             while (istream.get(ch) && (ch == space || ch == ignoreEOL));
             if (ch == inEOL || ch == '\0')
                 return !istream.eof();
-            
+           
+#ifdef SUPPORT_QUOTED_VALUES
             if (strchr(quotes, ch) != nullptr)  {
                 // Handle quoted field.
                 char quote = ch;
@@ -142,6 +144,7 @@ class CsvParser
                     field.push_back(quote);
             }
             else
+#endif
             {
                 do {
                     if (ch == delim || ch == inEOL) {
